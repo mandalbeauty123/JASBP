@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AgroMonitoring Weather</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+   * {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(to right, #d4fc79, #96e6a1); /* Light Green Gradient */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.weather-box {
+  background: #fff; /* White background for clean look */
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 320px;
+  width: 90%;
+}
+
+.weather-box h2 {
+  margin: 0 0 10px;
+  color: #2e8b57; /* Forest Green color for headings */
+}
+
+.weather-box p {
+  font-size: 16px;
+  margin: 6px 0;
+  color: #555; /* Slightly darker text for paragraph */
+}
+
+.loading {
+  font-size: 18px;
+  color: #555; /* Darker color for loading text */
+}
+
+@media (max-width: 500px) {
+  .weather-box {
+    padding: 20px;
+  }
+}
+
+.weather-box .temp {
+  font-size: 50px;
+  margin: 10px 0;
+  color: #388e3c; /* Deep Green for temperature */
+}
+
+.weather-box .city {
+  font-size: 18px;
+  margin: 5px 0;
+  color: #388e3c; /* Same green for the city name */
+}
+
+.weather-box .description {
+  font-size: 14px;
+  color: #8e8e8e; /* Lighter gray for description */
+}
+
+.weather-box .icon {
+  margin-top: 20px;
+}
+
+.weather-box .icon img {
+  width: 50px;
+  height: 50px;
+}
+
+.button {
+  background-color: #388e3c; /* Deep Green for buttons */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+.button:hover {
+  background-color: #2e7d32; /* Darker Green on hover */
+}
+
+.footer {
+  background-color: #388e3c; /* Green footer */
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 16px;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 500px) {
+  .footer {
+    font-size: 14px;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="weather-box" id="weatherBox">
+    <p class="loading">📡 Fetching weather data...</p>
+  </div>
+
+  <script>
+    const weatherBox = document.getElementById('weatherBox');
+    const apiKey = 'affa9541d3c6755ea248fcef8d7079f4'; // 🟢 Replace with your AgroMonitoring API key
+
+    function showWeather(data) {
+      const temperature = data.main.temp - 273.15; // Convert from Kelvin to °C
+      const humidity = data.main.humidity;
+      const pressure = data.main.pressure;
+      const description = data.weather[0].description;
+
+      weatherBox.innerHTML = `
+        <h2>🌤 Weather Report</h2>
+        <p><strong>${description}</strong></p>
+        <p>🌡 Temperature: ${temperature.toFixed(1)}°C</p>
+        <p>💧 Humidity: ${humidity}%</p>
+        <p>🔽 Pressure: ${pressure} hPa</p>
+      `;
+    }
+
+    function showError(message) {
+      weatherBox.innerHTML = `<p class="loading">❌ ${message}</p>`;
+    }
+
+    function fetchWeather(lat, lon) {
+      const url = `https://api.agromonitoring.com/agro/1.0/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          if (data.main) {
+            showWeather(data);
+          } else {
+            showError("Invalid response from API.");
+          }
+        })
+        .catch(() => showError("Failed to fetch weather."));
+    }
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => fetchWeather(pos.coords.latitude, pos.coords.longitude),
+          () => showError("Location permission denied.")
+        );
+      } else {
+        showError("Geolocation not supported.");
+      }
+    }
+
+    getLocation();
+  </script>
+
+</body>
+</html>

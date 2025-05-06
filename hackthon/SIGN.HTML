@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Forecast</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #e3f2fd; /* Light Blue Background */
+    }
+  
+    header {
+      background-color: #1976d2; /* Primary Blue */
+      color: white;
+      text-align: center;
+      padding: 30px 0;
+    }
+  
+    section {
+      background: white;
+      padding: 30px;
+      margin: 30px auto;
+      max-width: 700px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #90caf9; /* Light Blue Border */
+    }
+  
+    button {
+      background-color: #1976d2; /* Primary Blue */
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  
+    button:hover {
+      background-color: #1565c0; /* Darker Blue on Hover */
+    }
+  
+    footer {
+      text-align: center;
+      background-color: #1565c0; /* Darker Blue */
+      padding: 15px;
+      color: white;
+      font-size: 14px;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+  
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <h1>🌦️ Weather Forecast</h1>
+  </header>
+
+  <!-- Weather Forecast Form -->
+  <section>
+    <h2>Enter Your City Name:</h2>
+    <input type="text" id="city" placeholder="Enter city name" required />
+    <button type="button" onclick="getWeather()">Get Weather</button>
+
+    <div id="weatherResult" style="margin-top: 20px;"></div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>Created by CODERUSHER 🌾 </p>
+  </footer>
+
+  <script>
+    function getWeather() {
+      const city = document.getElementById('city').value;
+      if (!city) {
+        alert('Please enter a city!');
+        return;
+      }
+      // Fetch weather data from an API here
+      document.getElementById('weatherResult').innerHTML = `Weather data for ${city} coming soon!`;
+    }
+  </script>
+
+</body>
+</html>
